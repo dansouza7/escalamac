@@ -14,18 +14,8 @@ function clickCalcular(){
     //criando colunas e títulos da tabela
     $('#divTabelaEscala').empty();
 
-	var table = $('<table></table>');
-	var row = $('<tr></tr>');
-	var rowData = $('<th></th>').text('Data');
-	row.append(rowData);
-
-	var rowData = $('<th></th>').text('Dia Semana');
-	row.append(rowData);
-
-	var rowData = $('<th></th>').text('Escala');
-	row.append(rowData);
-
-	table.append(row);
+	var table = criarTabelaeCabecalho();
+	
 	
     for (var i = 0; i <= qtdDias; i++) {
     	countDias++;
@@ -59,11 +49,23 @@ function clickCalcular(){
 
 }
 
-function onlyNumberKey(evt) {
+function criarTabelaeCabecalho() {
       
-    // Only ASCII character in that range allowed
-    var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-        return false;
-    return true;
+    //criando colunas e títulos da tabela
+    $('#divTabelaEscala').empty();
+
+	var table = $('<table></table>');
+	var row = $('<tr></tr>');
+	var rowData = $('<th></th>').text('Data');
+	row.append(rowData);
+
+	var rowData = $('<th></th>').text('Dia Semana');
+	row.append(rowData);
+
+	var rowData = $('<th></th>').text('Escala');
+	row.append(rowData);
+
+	table.append(row);
+
+	return table
 }
