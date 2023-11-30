@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="script/escalaMAC.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="home.css">
+	<title>Escala MAC</title>
+</head>
+<body>
+
+	<h3>O jeito mais fácil de verificar a sua escala futura</h3>
+
+<div id="divEscalaDia">
+	<label>Selecione a sua escala de hoje: </label>
+	<select id="selEscala">
+	  <option value="Manhã" selected>Manhã</option>
+	  <option value="Tarde">Tarde</option>
+	  <option value="Noite">Noite</option>
+	  <option value="Largando">Largando</option>
+	  <option value="Folga">Folga</option>
+	</select>
+	</br>
+
+	<label>Selecione a previsão em dias:</label>
+	<input type="text" type="number" onkeypress="return onlyNumberKey(event)"  id="qtdDias" >
+</div>
+
+<button onclick="clickCalcular()">Calcular</button>
+
+
+<div id="divTabelaEscala">
+
+</div>
+
+</body>
+</html>

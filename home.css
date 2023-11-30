@@ -1,0 +1,18 @@
+#divEscalaDia {
+	margin-bottom: 2em;
+	margin-top: 2em;
+}
+
+#divTabelaEscala{
+	margin-top: 2em;
+}
+
+
+table, td, th {
+  border: 1px solid black;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
