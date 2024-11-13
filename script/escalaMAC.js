@@ -1,80 +1,96 @@
-function clickCalcular(){
-
-	var dia = document.getElementById('selEscala').value;
-	var qtdDias = document.getElementById('qtdDias').value;
-
-	var escalas = ['Manhã','Tarde','Noite', 'Largando','Folga'];
-	var dataHoje = new Date();
-	const diaSemana = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
-
-
-    var indexEscalaAtual = escalas.indexOf(dia);
-    var countDias = 0;
+function createTableHeader() {
+    const headers = ['Data', 'Dia Semana', 'Escala'];
+    const row = $('<tr class="header-row"></tr>');
     
-    //criando colunas e títulos da tabela
-    $('#divTabelaEscala').empty();
-
-	var table = criarTabelaeCabecalho();
-	
-	
-    for (var i = 0; i <= qtdDias; i++) {
-    	countDias++;
-    	indexEscalaAtual++;
-
-    	if (indexEscalaAtual==5) {
-    		indexEscalaAtual = 0;
-    	}
-
-    	//incremento de datas
-    	let dataIncremento = new Date();
-    	dataIncremento = new Date(dataIncremento.setDate(dataHoje.getDate() + countDias));
-    	let dataFormatada = ((dataIncremento.getDate() )) + "/" + ((dataIncremento.getMonth() + 1)) + "/" + dataIncremento.getFullYear(); 
-		
-		var row = $('<tr></tr>');
-		var rowData = $('<td></td>').text(dataFormatada);
-		row.append(rowData);
-
-    	//pegando o dia da semana referente a data incrementada
-    	let day = diaSemana[dataIncremento.getDay()];
-		var rowData = $('<td></td>').text(day);
-		row.append(rowData);
-
-		//imprimindo a escala referente ao dia
-		var rowData = $('<td></td>').text(escalas[indexEscalaAtual]);
-		row.append(rowData);
-		table.append(row);	
-    }
-
-    $('#divTabelaEscala').append(table);
-
+    headers.forEach(header => {
+        const th = $('<th></th>').text(header);
+        row.append(th);
+    });
+    
+    return row;
 }
 
-function criarTabelaeCabecalho() {
-      
-    //criando colunas e títulos da tabela
+function formatDate(date) {
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+}
+
+function createTableRow(date, dayName, scale) {
+    const row = $('<tr class="scale-row"></tr>');
+    const isWeekend = dayName === "Domingo" || dayName === "Sábado";
+    
+    [date, dayName, scale].forEach((text, index) => {
+        const td = $('<td></td>').text(text);
+        
+        // Add weekend class only to date and day columns (index 0 and 1)
+        if (isWeekend && index < 2) {
+            td.addClass('weekend-day');
+        }
+        
+        // Add scale class for the last column
+        if (index === 2) {
+            td.addClass(`scale-${text.toLowerCase().replace('ã', 'a')}`);
+        }
+        
+        row.append(td);
+    });
+    return row;
+}
+
+function clickCalcular() {
+    const selectedScale = document.getElementById('selEscala').value;
+    const numberOfDays = document.getElementById('qtdDias').value;
+    
+    if (!numberOfDays) return; // Don't calculate if no days entered
+    
+    const scales = ['Manhã', 'Tarde', 'Noite', 'Largando', 'Folga'];
+    const weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    const today = new Date();
+    
+    let currentScaleIndex = scales.indexOf(selectedScale);
+    
+    // Create table
     $('#divTabelaEscala').empty();
+    const table = $('<table class="scale-table"></table>');
+    table.append(createTableHeader());
+    
+    // Generate rows
+    for (let i = 0; i <= numberOfDays; i++) {
+        currentScaleIndex = currentScaleIndex >= 4 ? 0 : currentScaleIndex + 1;
+        
+        const currentDate = new Date(today);
+        currentDate.setDate(today.getDate() + i + 1);
+        
+        const formattedDate = formatDate(currentDate);
+        const dayName = weekDays[currentDate.getDay()];
+        const scale = scales[currentScaleIndex];
+        
+        table.append(createTableRow(formattedDate, dayName, scale));
+    }
+    
+    $('#divTabelaEscala').append(table);
 
-	var table = $('<table></table>');
-	var row = $('<tr></tr>');
-	var rowData = $('<th></th>').text('Data');
-	row.append(rowData);
-
-	var rowData = $('<th></th>').text('Dia Semana');
-	row.append(rowData);
-
-	var rowData = $('<th></th>').text('Escala');
-	row.append(rowData);
-
-	table.append(row);
-
-	return table
+    // Smooth scroll to table after it's created
+    setTimeout(() => {
+        document.getElementById('divTabelaEscala').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start'
+        });
+    }, 100);
 }
 
 function onlyNumberKey(evt) {
-      
-    // Only ASCII character in that range allowed
-    var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-        return false;
-    return true;
+    const keyCode = evt.which || evt.keyCode;
+    const isValidKey = keyCode <= 31 || (keyCode >= 48 && keyCode <= 57);
+    return isValidKey;
 }
+
+// Add event listener for Enter key
+document.addEventListener('DOMContentLoaded', function() {
+    const inputDias = document.getElementById('qtdDias');
+    inputDias.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent form submission
+            clickCalcular();
+        }
+    });
+});
