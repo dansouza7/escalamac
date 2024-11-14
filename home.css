@@ -302,3 +302,23 @@ button:active {
     bottom: 20px;
     right: 0;
 }
+
+/* Mobile responsive styles */
+@media screen and (max-width: 768px) {
+    .btn-right {
+        position: static;  /* Remove absolute positioning */
+        float: none;      /* Remove float */
+        display: block;   /* Make it block level */
+        margin: 20px auto;/* Center the button */
+        width: 120px;     /* Reduce button width */
+    }
+
+    #divEscalaDia {
+        padding-bottom: 10px; /* Reduce bottom padding */
+    }
+
+    .form-group {
+        margin-left: 10px;  /* Reduce left margin */
+        margin-right: 10px; /* Add right margin */
+    }
+}
