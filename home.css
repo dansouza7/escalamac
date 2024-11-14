@@ -211,15 +211,26 @@ button:active {
 
 /* Form layout improvements */
 .form-group {
-    display: flex;
-    gap: 20px;
-    align-items: center;
     margin-bottom: 15px;
+    margin-left: 20px;
 }
 
 .form-group label {
-    min-width: 120px;
-    font-weight: 500;
+    display: inline-block;
+    width: 160px;
+    text-align: left;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.form-group select,
+.form-group input {
+    width: 180px;
+    padding: 5px;
+    box-sizing: border-box;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 /* Responsive design */
